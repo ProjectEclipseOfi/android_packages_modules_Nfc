@@ -68,8 +68,14 @@ android_app {
     sdk_version: "core_platform",
     srcs: [
         ":nfc-sources",
+        ":framework-nfc-updatable-aidl-sources",
         "shim_src/non_apex/**/*.java",
     ],
+    aidl: {
+        include_dirs: [
+            "packages/modules/Nfc/framework/java",
+        ],
+    },
     libs: [
         // order matters: classes in framework-nfc are resolved before framework, meaning
         // @hide APIs in framework-nfc are resolved before @SystemApi stubs in framework
@@ -104,8 +110,14 @@ android_app {
     certificate: "nfc",
     srcs: [
         ":nfc-sources",
+        ":framework-nfc-updatable-aidl-sources",
         "shim_src/apex/**/*.java",
     ],
+    aidl: {
+        include_dirs: [
+            "packages/modules/Nfc/framework/java",
+        ],
+    },
     libs: [
         "android.nfc.flags-aconfig-java",
         "android.permission.flags-aconfig-java",

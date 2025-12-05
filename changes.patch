@@ -1,0 +1,64 @@
+diff --git a/NfcNci/Android.bp b/NfcNci/Android.bp
+index 405e6e82d..52c6e3538 100644
+--- a/NfcNci/Android.bp
++++ b/NfcNci/Android.bp
+@@ -68,8 +68,14 @@ android_app {
+     sdk_version: "core_platform",
+     srcs: [
+         ":nfc-sources",
++        ":framework-nfc-updatable-aidl-sources",
+         "shim_src/non_apex/**/*.java",
+     ],
++    aidl: {
++        include_dirs: [
++            "packages/modules/Nfc/framework/java",
++        ],
++    },
+     libs: [
+         // order matters: classes in framework-nfc are resolved before framework, meaning
+         // @hide APIs in framework-nfc are resolved before @SystemApi stubs in framework
+@@ -104,8 +110,14 @@ android_app {
+     certificate: "nfc",
+     srcs: [
+         ":nfc-sources",
++        ":framework-nfc-updatable-aidl-sources",
+         "shim_src/apex/**/*.java",
+     ],
++    aidl: {
++        include_dirs: [
++            "packages/modules/Nfc/framework/java",
++        ],
++    },
+     libs: [
+         "android.nfc.flags-aconfig-java",
+         "android.permission.flags-aconfig-java",
+diff --git a/framework/Android.bp b/framework/Android.bp
+index 5fb707d96..b8bae1a1b 100644
+--- a/framework/Android.bp
++++ b/framework/Android.bp
+@@ -13,6 +13,17 @@ filegroup {
+     path: "java",
+     srcs: [
+         "java/**/*.java",
++    ],
++    visibility: [
++        "//frameworks/base:__subpackages__",
++        "//packages/modules/Nfc:__subpackages__",
++    ],
++}
++
++filegroup {
++    name: "framework-nfc-updatable-aidl-sources",
++    path: "java",
++    srcs: [
+         "java/**/*.aidl",
+     ],
+     visibility: [
+@@ -40,6 +51,7 @@ java_sdk_library {
+     ],
+     srcs: [
+         ":framework-nfc-updatable-sources",
++        ":framework-nfc-updatable-aidl-sources",
+         ":framework-nfc-javastream-protos",
+     ],
+     defaults: ["framework-module-defaults"],

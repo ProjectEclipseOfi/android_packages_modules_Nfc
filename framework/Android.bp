@@ -13,6 +13,17 @@ filegroup {
     path: "java",
     srcs: [
         "java/**/*.java",
+    ],
+    visibility: [
+        "//frameworks/base:__subpackages__",
+        "//packages/modules/Nfc:__subpackages__",
+    ],
+}
+
+filegroup {
+    name: "framework-nfc-updatable-aidl-sources",
+    path: "java",
+    srcs: [
         "java/**/*.aidl",
     ],
     visibility: [
@@ -40,6 +51,7 @@ java_sdk_library {
     ],
     srcs: [
         ":framework-nfc-updatable-sources",
+        ":framework-nfc-updatable-aidl-sources",
         ":framework-nfc-javastream-protos",
     ],
     defaults: ["framework-module-defaults"],
